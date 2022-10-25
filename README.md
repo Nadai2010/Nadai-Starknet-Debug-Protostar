@@ -1,4 +1,4 @@
-¡GRAPH[stark.png]
+  ![Graph](Imágenes/stark.png)
 
 # Nadai Starknet Debugging de un Contrato Cairo con Protostar
 
@@ -40,29 +40,29 @@ pip install flask requests
 ## Estructura del Proyecto
 El proyecto debe de quedar con esta estrucutra.
 
-¡GRAPH[estructura.png]
+![Graph](Imágenes/estructura.png)
 
 Vemos que tenemos un contrato y sus respectivos tests. Además tenemos el server donde veremos las peticiones enviadas por el contrato.
 
-Repositorio del proyecto ()
+[Repositorio del proyecto](https://github.com/Nadai2010/Nadai-Starknet-Debug-Protostar)
 
 ### Contrato main
-El contrato `main` tiene una `@storage_var` de nombre balance. También tiene la funcion de nombre `get_balance` que retorna el balance actual y tambien tiene la funcion de nombre `increase_balanc` para aumentar el balance. El balance inicia en 0.
+El contrato `main` tiene una `@storage_var` de nombre balance. También tiene la funcion de nombre `get_balance` que retorna el balance actual y tambien tiene la funcion de nombre `increase_balance` para aumentar el balance. El balance inicia en 0.
 
-- A la función “increase_value” le vamos a hacer debugging.
+- A la función “increase_balance” le vamos a hacer debugging.
 
-¡GRAPH[main.png]
+![Graph](Imágenes/main.png)
 
 ## Test
 
-- Test para la función `increase_value`.
+- Test para la función `increase_balance`.
 
-¡GRAPH[test.png]
+![Graph](Imágenes/test.png)
 
-## Modificar la función `increase_value`
+## Modificar la función `increase_balance`
 Agrego el `hint`, y armo un `json` con los datos que quiero enviar al server. En este caso quiero ver el balance actual y el nuevo balance.
 
-¡GRAPH[debug.png]
+![Graph](Imágenes/debug.png)
 
 ## Correr el server
 Levantamos el server en otra terminal y la dejamos abierta usando el siguiente código
@@ -71,7 +71,7 @@ Levantamos el server en otra terminal y la dejamos abierta usando el siguiente c
 python3 bigBrainDebug/server.py
 ```
 
-¡GRAPH[server.png]
+![Graph](Imágenes/server.png)
 
 ## Correr el test
 Al ejecutar el comando `test` de protostar especifique que desea usar sugerencias no incluidas en la lista blanca de hints con la bandera `— disable-hint-validation`. Recorda que el uso de `hints` está muy restringido en StarkNet y no se aplica en los contratos inteligentes. Por lo tanto, los usaremos para hacer el debugging y luego de eso los eliminaremos.
@@ -85,17 +85,17 @@ protostar test ./tests/test_main.cairo::test_increase_balance — disable-hint-v
 
 - Como vemos en la terminal no da error ningun `test`.
 
-¡GRAPH[test.png]
+![Graph](Imágenes/test.png)
 
 
 - Como vemos en la terminal del servidor se vizualizan el balance actual y el nuevo balance que es lo que queriamos. En el servidor como el test y `test_increase_balance` incrementa el balance en 3 oportunidades. Primero llama a la funcion con el valor `10` (entonces el balance es 10), luego con el valor `90` (entonces el valor es 100) y por último `50` entonces el balance final es `150`. Coincide con los valores mostrados en la terminal.
 
-¡GRAPH[balance.png]
+![Graph](Imágenes/balance.png)
 
 
 - Ahora realizaremos una prueba `ERRONEA`, modificando `test_main.cairo` con resultados incorrectos y veremos como nos ayudan los test en las interpretaciones.
 
-¡GRAPH[testerror.png]
+![Graph](Imágenes/testerror.png)
 
 
 - Ejecutamos el test otra vez de `test_increase_balance`.
@@ -103,12 +103,12 @@ protostar test ./tests/test_main.cairo::test_increase_balance — disable-hint-v
 protostar test ./tests/test_main.cairo::test_increase_balance — disable-hint-validation
 ```
 
-¡GRAPH[testerror1.png]
+![Graph](Imágenes/testerror1.png)
 
 
 - Vemos que nos indica un error en cálculo de `150 !=140` y que el test está `failed`. Sin embargo en el server en los 3 últimos balance vemos los datos correctos que debemos tener.
 
-¡GRAPH[balanceerror.png]
+![Graph](Imágenes/balanceerror.png)
 
 
 Así podemos ir haciendo nuestras pruebas y analizando los posibles `debug` que encontremos.
